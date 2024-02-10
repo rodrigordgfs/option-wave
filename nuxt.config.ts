@@ -1,7 +1,9 @@
-import path from 'path'
+import path from "path";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  css: ["~/assets/css/main.css"],
+  modules: ["nuxt-icon", "@nuxtjs/supabase", "@pinia/nuxt", "@nuxt/image"],
   alias: {
     "@": path.resolve(__dirname, "./"),
     "~": path.resolve(__dirname, "./"),
@@ -12,4 +14,5 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-})
+  supabase: { redirect: false },
+});
