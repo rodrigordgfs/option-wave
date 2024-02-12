@@ -1,13 +1,15 @@
 <template>
-  <div class="flex flex-row h-screen gap-20">
-    <div class="flex-1 flex flex-col items-end justify-center">
+  <div class="flex flex-col-reverse md:flex-row h-screen gap-5 md:gap-20">
+    <div
+      class="md:flex-1 flex flex-col items-center md:items-end justify-center"
+    >
       <div
-        class="flex flex-col max-w-[480px] w-full bg-zinc-800 p-16 rounded-lg"
+        class="flex flex-col max-w-[480px] w-full bg-zinc-800 py-16 px-10 md:p-16 rounded-lg"
       >
         <form @submit.prevent="handleSubmitForm">
-          <div class="group mt-3 flex flex-col gap-1">
+          <div class="group flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-purple-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.email.$error,
@@ -16,7 +18,7 @@
               <Icon
                 name="ic:baseline-email"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 transition-all"
+                class="text-zinc-800 group-focus-within:text-blue-600 transition-all"
               />
               <input
                 type="email"
@@ -34,7 +36,7 @@
           </div>
           <div class="group mt-3 flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-purple-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.name.$error,
@@ -43,7 +45,7 @@
               <Icon
                 name="ic:baseline-person"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 transition-all"
+                class="text-zinc-800 group-focus-within:text-blue-600 transition-all"
               />
               <input
                 type="text"
@@ -61,7 +63,7 @@
           </div>
           <div class="group mt-3 flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-purple-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.password.$error,
@@ -70,7 +72,7 @@
               <Icon
                 name="ic:outline-lock"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 transition-all"
+                class="text-zinc-800 group-focus-within:text-blue-600 transition-all"
               />
               <input
                 :type="passwordType"
@@ -83,14 +85,14 @@
                 v-if="!showPassword"
                 name="ic:outline-remove-red-eye"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 hover:text-purple-600 transition-all cursor-pointer"
+                class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
                 @click="handleShowPassword"
               />
               <Icon
                 v-else
                 name="ic:baseline-remove-red-eye"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 hover:text-purple-600 transition-all cursor-pointer"
+                class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
                 @click="handleShowPassword"
               />
             </div>
@@ -102,7 +104,7 @@
           </div>
           <div class="group mt-3 flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-purple-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.confirmPassword.$error,
@@ -111,7 +113,7 @@
               <Icon
                 name="ic:outline-lock"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 transition-all"
+                class="text-zinc-800 group-focus-within:text-blue-600 transition-all"
               />
               <input
                 :type="passwordType"
@@ -124,14 +126,14 @@
                 v-if="!showPassword"
                 name="ic:outline-remove-red-eye"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 hover:text-purple-600 transition-all cursor-pointer"
+                class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
                 @click="handleShowPassword"
               />
               <Icon
                 v-else
                 name="ic:baseline-remove-red-eye"
                 size="24"
-                class="text-zinc-800 group-focus-within:text-purple-600 hover:text-purple-600 transition-all cursor-pointer"
+                class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
                 @click="handleShowPassword"
               />
             </div>
@@ -145,16 +147,16 @@
             class="text-white text-base text-center cursor-pointer my-4 transition-all"
           >
             Ao se registrar, você aceita nossos
-            <span class="text-purple-600 font-bold hover:text-purple-500"
+            <span class="text-blue-600 font-bold hover:text-blue-500"
               >termos de uso</span
             >
             e a nossa
-            <span class="text-purple-600 font-bold hover:text-purple-500"
+            <span class="text-blue-600 font-bold hover:text-blue-500"
               >política de privacidade</span
             >.
           </p>
           <button
-            class="w-full text-white bg-purple-800 py-3 rounded-lg hover:bg-purple-900 transition-all uppercase font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full text-white bg-blue-800 py-3 rounded-lg hover:bg-blue-900 transition-all uppercase font-bold disabled:opacity-50 disabled:cursor-not-allowed"
             type="submit"
             :disabled="isSubmitting"
           >
@@ -169,14 +171,18 @@
         </form>
       </div>
     </div>
-    <div class="flex-1 flex flex-col justify-center items-start">
-      <div class="flex flex-col text-white text-4xl font-bold">
+    <div
+      class="md:flex-1 flex flex-col justify-center items-center md:items-start"
+    >
+      <div
+        class="flex flex-col text-white text-2xl md:text-4xl text-center font-bold"
+      >
         <p>Que ta tirar</p>
         <p>aquela dúvida</p>
         <p>com o publico</p>
       </div>
-      <p class="text-zinc-400 mt-6">para realizar suas enquetes.</p>
-      <p class="text-zinc-400 mb-6">
+      <p class="text-zinc-400 mt-6 text-center">para realizar suas enquetes.</p>
+      <p class="text-zinc-400 mb-6 text-center">
         Junte-se a milhares de pessoas para realizar suas enquetes.
       </p>
       <button
@@ -185,11 +191,10 @@
       >
         <Icon
           name="ic:baseline-arrow-back-ios"
-          class="text-purple-600 hover:text-purple-500 transition-all"
+          class="text-blue-600 hover:text-blue-500 transition-all"
           size="18"
         />
-        <span
-          class="font-bold text-purple-600 hover:text-purple-500 transition-all"
+        <span class="font-bold text-blue-600 hover:text-blue-500 transition-all"
           >Voltar para o inicio</span
         >
       </button>
