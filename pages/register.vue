@@ -9,10 +9,11 @@
         <form @submit.prevent="handleSubmitForm">
           <div class="group flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.email.$error,
+                'disabled:cursor-not-allowed disabled:opacity-50': isSubmitting,
               }"
             >
               <Icon
@@ -26,6 +27,7 @@
                 placeholder="E-mail"
                 v-model="formData.email"
                 @change="v$.email.$touch"
+                :disabled="isSubmitting"
               />
             </div>
             <span
@@ -36,10 +38,11 @@
           </div>
           <div class="group mt-3 flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.name.$error,
+                'disabled:cursor-not-allowed disabled:opacity-50': isSubmitting,
               }"
             >
               <Icon
@@ -50,9 +53,11 @@
               <input
                 type="text"
                 class="w-full bg-transparent outline-none text-white h-14"
+                autocomplete="name"
                 placeholder="Nome completo"
                 v-model="formData.name"
                 @change="v$.name.$touch"
+                :disabled="isSubmitting"
               />
             </div>
             <span
@@ -63,10 +68,11 @@
           </div>
           <div class="group mt-3 flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.password.$error,
+                'disabled:cursor-not-allowed disabled:opacity-50': isSubmitting,
               }"
             >
               <Icon
@@ -78,22 +84,24 @@
                 :type="passwordType"
                 class="w-full bg-transparent outline-none text-white h-14 flex-1"
                 placeholder="Senha"
+                autocomplete="new-password"
                 v-model="formData.password"
                 @change="v$.password.$touch"
+                :disabled="isSubmitting"
               />
               <Icon
                 v-if="!showPassword"
                 name="ic:outline-remove-red-eye"
                 size="24"
                 class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
-                @click="handleShowPassword"
+                @click="togglePassword"
               />
               <Icon
                 v-else
                 name="ic:baseline-remove-red-eye"
                 size="24"
                 class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
-                @click="handleShowPassword"
+                @click="togglePassword"
               />
             </div>
             <span
@@ -104,10 +112,11 @@
           </div>
           <div class="group mt-3 flex flex-col gap-1">
             <div
-              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex flex-row items-center gap-3 rounded-lg bg-zinc-900 px-4 border-transparent group-focus-within:ring-1 group-focus-within:ring-blue-600 transition-all"
               :class="{
                 'ring-1 ring-red-500 focus:ring-red-500 group-focus-within:ring-red-500':
                   v$.confirmPassword.$error,
+                'disabled:cursor-not-allowed disabled:opacity-50': isSubmitting,
               }"
             >
               <Icon
@@ -116,25 +125,27 @@
                 class="text-zinc-800 group-focus-within:text-blue-600 transition-all"
               />
               <input
-                :type="passwordType"
+                :type="confirmPasswordType"
                 class="w-full bg-transparent outline-none text-white h-14 flex-1"
                 placeholder="Confirmar senha"
+                autocomplete="current-password"
                 v-model="formData.confirmPassword"
                 @change="v$.confirmPassword.$touch"
+                :disabled="isSubmitting"
               />
               <Icon
-                v-if="!showPassword"
+                v-if="!showConfirmPassword"
                 name="ic:outline-remove-red-eye"
                 size="24"
                 class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
-                @click="handleShowPassword"
+                @click="toggleConfirmPassword"
               />
               <Icon
                 v-else
                 name="ic:baseline-remove-red-eye"
                 size="24"
                 class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
-                @click="handleShowPassword"
+                @click="toggleConfirmPassword"
               />
             </div>
             <span
@@ -175,7 +186,7 @@
       class="md:flex-1 flex flex-col justify-center items-center md:items-start"
     >
       <div
-        class="flex flex-col text-white text-2xl md:text-4xl text-center font-bold"
+        class="flex flex-col text-white text-2xl md:text-4xl text-center md:text-start font-bold"
       >
         <p>Que ta tirar</p>
         <p>aquela dúvida</p>
@@ -202,7 +213,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import {
   required,
   email,
@@ -255,33 +266,30 @@ const rules = computed(() => {
 });
 
 const router = useRouter();
-const user = useSupabaseUser();
-const client = useSupabaseClient();
+const useUser = useUserStore();
+const {
+  showPassword,
+  showConfirmPassword,
+  togglePassword,
+  toggleConfirmPassword,
+  passwordType,
+  confirmPasswordType,
+} = usePasswordStore();
 const v$ = useVuelidate(rules, formData);
 
-const showPassword = ref(false);
 const isSubmitting = ref(false);
-
-const passwordType = computed(() => (showPassword.value ? "text" : "password"));
-
-const handleShowPassword = () => (showPassword.value = !showPassword.value);
 
 const handleSubmitForm = () => {
   v$.value.$validate();
   if (!v$.value.$error) {
-    handleLogin();
+    handleRegister();
   }
 };
 
-const handleLogin = async () => {
+const handleRegister = async () => {
   isSubmitting.value = true;
-  const { error } = await client.auth.signInWithPassword({
-    email: formData.email,
-    password: formData.password,
-  });
-  if (error) {
-    console.error(error);
-  } else {
+  await useUser.signUp(formData.email, formData.password, formData.name);
+  if (useUser.isAuthenticated) {
     router.push({
       name: "Home",
     });

@@ -1,16 +1,16 @@
 <template>
   <h1 class="text-3xl font-bold underline text-white">
-    {{ user?.id }}
+    <!-- {{ useUser.user }} -->
   </h1>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 definePageMeta({
   name: "Home",
   middleware: "auth",
 });
 
-const user = useSupabaseUser();
+// const useUser = useUserStore();
 </script>
 
 <style></style>

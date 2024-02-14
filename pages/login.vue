@@ -62,6 +62,7 @@
                 :type="passwordType"
                 class="w-full bg-transparent outline-none text-white h-14 flex-1"
                 placeholder="Senha"
+                autocomplete="new-password"
                 v-model="formData.password"
                 @change="v$.password.$touch"
               />
@@ -70,14 +71,14 @@
                 name="ic:outline-remove-red-eye"
                 size="24"
                 class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
-                @click="handleShowPassword"
+                @click="togglePassword"
               />
               <Icon
                 v-else
                 name="ic:baseline-remove-red-eye"
                 size="24"
                 class="text-zinc-800 group-focus-within:text-blue-600 hover:text-blue-600 transition-all cursor-pointer"
-                @click="handleShowPassword"
+                @click="togglePassword"
               />
             </div>
             <span
@@ -118,7 +119,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 
@@ -126,7 +127,6 @@ definePageMeta({
   name: "Login",
   path: "/login",
   layout: "auth",
-  // middleware: "auth",
 });
 
 const formData = reactive({
@@ -151,16 +151,11 @@ const rules = computed(() => {
 });
 
 const router = useRouter();
-const user = useSupabaseUser();
-const client = useSupabaseClient();
+const useUser = useUserStore();
+const { showPassword, togglePassword, passwordType } = usePasswordStore();
 const v$ = useVuelidate(rules, formData);
 
-const showPassword = ref(false);
 const isSubmitting = ref(false);
-
-const passwordType = computed(() => (showPassword.value ? "text" : "password"));
-
-const handleShowPassword = () => (showPassword.value = !showPassword.value);
 
 const handleSubmitForm = () => {
   v$.value.$validate();
@@ -171,13 +166,8 @@ const handleSubmitForm = () => {
 
 const handleLogin = async () => {
   isSubmitting.value = true;
-  const { error } = await client.auth.signInWithPassword({
-    email: formData.email,
-    password: formData.password,
-  });
-  if (error) {
-    console.error(error);
-  } else {
+  await useUser.signIn(formData.email, formData.password);
+  if (useUser.isAuthenticated) {
     router.push({
       name: "Home",
     });

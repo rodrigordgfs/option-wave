@@ -3,7 +3,13 @@ import path from "path";
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-  modules: ["nuxt-icon", "@nuxtjs/supabase", "@pinia/nuxt", "@nuxt/image"],
+  modules: [
+    "nuxt-icon",
+    "@nuxtjs/supabase",
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
+    "@nuxt/image",
+  ],
   alias: {
     "@": path.resolve(__dirname, "./"),
     "~": path.resolve(__dirname, "./"),
@@ -15,4 +21,9 @@ export default defineNuxtConfig({
     },
   },
   supabase: { redirect: false },
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.API_URL,
+    },
+  },
 });
