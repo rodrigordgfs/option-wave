@@ -9,6 +9,9 @@ definePageMeta({
   name: "Home",
   middleware: "auth",
 });
+useHead({
+    title: 'Option Wave - Pools',
+});
 
 // const useUser = useUserStore();
 </script>

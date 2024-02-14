@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="DefaultLayout">
+    <Header />
     <slot />
   </div>
 </template>

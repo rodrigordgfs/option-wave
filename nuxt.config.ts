@@ -2,6 +2,11 @@ import path from "path";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  app: {
+    head: {
+      title: "Option Wave",
+    },
+  },
   css: ["~/assets/css/main.css"],
   modules: [
     "nuxt-icon",
