@@ -18,11 +18,9 @@ export const useUserStore = defineStore("user", {
       })
         .then((data) => {
           this.user = data;
-          return true;
         })
         .catch((error) => {
           console.log(error);
-          return false;
         });
     },
 
@@ -38,16 +36,32 @@ export const useUserStore = defineStore("user", {
       })
         .then((data) => {
           this.user = data;
-          return true;
         })
         .catch((error) => {
           console.log(error);
-          return false;
         });
     },
 
     async signOut() {
       this.user = null;
+    },
+
+    async update(name, image) {
+      await $fetch(`/user/${this.user.id}`, {
+        baseURL: useRuntimeConfig().public.apiUrl,
+        method: "PATCH",
+        body: JSON.stringify({
+          name,
+          image,
+        }),
+      })
+        .then((data) => {
+          this.user = data;
+          console.log(this.user, data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   getters: {
