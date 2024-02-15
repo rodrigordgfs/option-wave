@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="useModal.showModalProfile"
-    class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center m-2"
+    class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center"
   >
     <OnClickOutside @trigger="useModal.toggleModalProfile">
-      <div class="bg-zinc-900 shadow p-5 rounded-2xl">
+      <div class="bg-zinc-900 shadow p-5 rounded-2xl m-2">
         <div class="flex flex-col items-center max-w-full w-72">
           <p class="text-white font-bold text-4xl mb-4">Profile</p>
           <img
@@ -13,7 +13,7 @@
             class="rounded-full w-20 h-20 shadow"
           />
           <img
-            v-else-if="userStore.user.image"
+            v-else-if="userStore.user?.image"
             :src="userImage"
             class="rounded-full w-20 h-20 shadow"
           />

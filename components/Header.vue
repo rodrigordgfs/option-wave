@@ -46,8 +46,6 @@ const initialsName = computed(() => {
   return `${name[0][0]}${name[1][0]}`;
 });
 
-watchEffect();
-
 const userImage = computed(() => {
   return runtimeConfig.public.bucketUrl + userStore.user.image;
 });
